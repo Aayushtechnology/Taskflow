@@ -5,11 +5,11 @@ const jwt = require("jsonwebtoken")
 
 exports.registerUser = async (req, res) => {
 
-    const { username, email, userNumber, password } = req.body
+    const { username, email, userNumber, password ,role} = req.body
 
-    if (!username || !email || !userNumber || !password) {
+    if (!username || !email || !userNumber || !password ||!role) {
         return res.status(400).json({
-            message: "please provide username, email, userNumber, password"
+            message: "please provide username, email, userNumber, password , role "
         })
     }
 

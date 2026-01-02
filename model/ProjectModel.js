@@ -1,7 +1,7 @@
 // models/Project.js
 const mongoose = require("mongoose");
 
-const projectSchema = new mongoose.Schema({
+const projectSchema = mongoose.Schema({
     title: String,
     description: String,
     owner: {

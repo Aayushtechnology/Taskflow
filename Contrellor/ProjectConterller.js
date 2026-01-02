@@ -12,7 +12,7 @@ try{
         })
     }
 
-    const Project = await project.create({
+    const project = await Project.create({
         owner, 
         members,
          status
@@ -31,5 +31,24 @@ try{
     }
 
 
+
     
+}
+
+exports.getProject= async (req, res) => {
+    // const productReviews = await Review.find().populate("userId")
+    const Project = await Project.find()
+
+    if (Project.length === 0) {
+        res.status(400).json({
+            message: "Project is not found"
+        })
+    } else {
+        res.status(200).json({
+            message: "product fetch successfully",
+            data: products,
+            // review: productReviews
+        })
+    }
+
 }
