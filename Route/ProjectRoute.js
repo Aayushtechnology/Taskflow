@@ -1,12 +1,13 @@
-const { projectCrate, getProject, getsingleproduct } = require("../Contrellor/ProjectConterller");
+const { getProject,  createProject } = require("../Contrellor/ProjectConterller");
+
 
 const router = require("express").Router();
 
-router.route("/projectcreate").post(projectCrate);
+router.route("/projectcreate").post(createProject);
 
 router.route("/getproject").post(getProject);
 
-router.route("/projectcreate").post(getsingleproduct);
+// router.route("/projectcreate").post();
 
 
 module.exports = router; 

@@ -1,4 +1,4 @@
-const { registerUser, loginUser, forgotPassword, verifyOtp, ResetPassword } = require("../Contrellor/UserContrellor");
+const { registerUser, loginUser, forgotPassword, verifyOtp, ResetPassword } = require("../Contrellor/AuthContrellor");
 
 const router = require("express").Router();
 
