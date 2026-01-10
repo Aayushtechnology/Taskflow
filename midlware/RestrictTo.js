@@ -15,3 +15,4 @@ const restrictTo = (...roles) => {
     }
 }
 
+module.exports = restrictTo;

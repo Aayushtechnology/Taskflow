@@ -18,7 +18,7 @@ exports.createProject = async (req, res) => {
 
         return res.status(201).json({
             message: "Project created successfully",
-            data: project   // ✅ correct variable
+            data: project   
         });
 
     } catch (error) {
@@ -36,7 +36,8 @@ exports.createProject = async (req, res) => {
 
 
 exports.getProject = async (req, res) => {
-    // const productReviews = await Review.find().populate("userId")
+
+    // const productReviews = await Review.find().populate("userId")                                          
     const Project = await Project.find()
 
     if (Project.length === 0) {

@@ -22,4 +22,4 @@ module.exports = (req, res, next) => {
 };
  
 
-module.exports = checkMember;
+// module.exports = checkMember;

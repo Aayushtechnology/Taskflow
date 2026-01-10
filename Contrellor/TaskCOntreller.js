@@ -1,6 +1,6 @@
-const Task = requrie("../model/TaskModule.js")
+const Task = require("../model/TaskModule")
 
-exports.CreateTask = async (req, res) => {
+exports.createTask = async (req, res) => {
 
     const { title, description, status, projectId, assignedTo, filePath } = req.body;
 
@@ -30,7 +30,8 @@ exports.CreateTask = async (req, res) => {
     });
 }
 exports.getTasks = async (req, res) => {
-    if (Task.length === 0) {
+    const tasks = await Task.findAll()
+    if (tasks.length === 0) {
         res.status(400).json({
             message: "Task is not found"
         })
@@ -43,24 +44,6 @@ exports.getTasks = async (req, res) => {
     }
 }
 
-exports.getTask = async (req, res) => {
-    try {
-        const { id } = req.params
-
-        if (!validateObjectId(id)) {
-            return res.status(400).json({ status: false, msg: "Task id not valid" });
-        }
-        const task = await Task.findById(id);
-        if (!task) {
-            return res.status(400).json({ status: false, msg: "Task with given id not found" });
-        }
-        res.status(200).json({ task, status: true, msg: "Task found successfully.." });
-    }
-    catch (err) {
-        console.error(err);
-        return res.status(500).json({ status: false, msg: "Internal Server Error" });
-    }
-}
 
 
 exports.putTask = async (req, res) => {
@@ -75,6 +58,7 @@ exports.putTask = async (req, res) => {
         }
 
         let task = await Task.findById(req.params.id);
+        
         if (!task) {
             return res.status(400).json({ status: false, msg: "Task with given id not found" });
         }
