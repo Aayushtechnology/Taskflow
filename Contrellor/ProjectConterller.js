@@ -10,23 +10,27 @@ exports.createProject = async (req, res) => {
             });
         }
 
-        const project = await Project.create({
-            owner,
+        const project  = await Project.create({
+            description,
             title,
-            description
-        });
+            owner: req.user.userId,
+            tenant: req.tenantId
+
+        })
+        
+           
 
         return res.status(201).json({
-            message: "Project created successfully",
-            data: project   
-        });
+        message: "Project created successfully",
+        data: project
+    });
 
-    } catch (error) {
-        console.error("Create project error:", error);
-        return res.status(500).json({
-            message: error.message || "Failed to create project"
-        });
-    }
+} catch (error) {
+    console.error("Create project error:", error);
+    return res.status(500).json({
+        message: error.message || "Failed to create project"
+    });
+}
 };
 
 

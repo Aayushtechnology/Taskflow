@@ -42,6 +42,11 @@ const userSchema = mongoose.Schema({
         default: false,
         select: false
     },
+    tenant: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Tenant",
+        required: true
+    }
 
 
 }, {

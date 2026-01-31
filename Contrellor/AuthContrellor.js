@@ -5,9 +5,9 @@ const jwt = require("jsonwebtoken")
 
 exports.registerUser = async (req, res) => {
 
-    const { username, email, userNumber, password ,role} = req.body
+    const { username, email, userNumber, password, role } = req.body
 
-    if (!username || !email || !userNumber || !password ||!role) {
+    if (!username || !email || !userNumber || !password || !role) {
         return res.status(400).json({
             message: "please provide username, email, userNumber, password , role "
         })
@@ -24,17 +24,30 @@ exports.registerUser = async (req, res) => {
             })
         }
 
-        const userData = await User.create({
+        const user = await User.create({
             userName: username,
             userEmail: email,
             userNumber: userNumber,
             userPassword: bcrypt.hashSync(password, 10)
 
         })
+        const tenant = await Tenant.create({
+            name: companyName,
+            slug: companyName.toLowerCase().replace(/\s+/g, "-"),
+            owner: user._id
+        })
+
+        // 3️⃣ Attach tenant to user
+        user.tenant = tenant._id
+        await user.save()
+      
 
         return res.status(201).json({
             message: "registration successully",
-            data: userData
+            data: {
+                userId: user._id,
+                tenantId: tenant._id
+              }
         })
     } catch (err) {
         // If mongoose validation error, return 400 with details
@@ -74,15 +87,17 @@ exports.loginUser = async (req, res) => {
 
     if (isMatched) {
 
-        const token = jwt.sign({ id: userFound[0]._id }, "hello@33rwcfd,.dhh", {
+        const user= jwt.sign({ id: userFound[0]._id, tenantId: user.tenant._id, }, "hello@33rwcfd,.dhh", {
+
             expiresIn: "9475858s"
         })
 
         return res.status(200).json({
             message: "user logged in successfully",
-            data: userFound,
-            token: token
+            role: user.role,
+            tenant: user.tenant.name
         })
+
 
     } else {
         return res.status(400).json({

@@ -5,6 +5,6 @@ const checkMember = require("../midlware/checkmemebe ");
 const router = require("express").Router();
 
 router.route("/Taskcreate").post(isAuthention , restrictTo(role="manager"),createTask);
-router.route("/gettask").post(isAuthention,checkMember,getTasks);
+router.route("/gettask").get(isAuthention,checkMember,getTasks);
 
 module.exports = router;

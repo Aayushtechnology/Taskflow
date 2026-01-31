@@ -1,5 +1,6 @@
 const Task = require("../model/TaskModule")
 
+
 exports.createTask = async (req, res) => {
 
     const { title, description, status, projectId, assignedTo, filePath } = req.body;
@@ -21,12 +22,13 @@ exports.createTask = async (req, res) => {
         status,
         projectId,
         filePath,
-        assignedTo
+        assignedTo,
+        tenant: req.tenantId
     });
 
     return res.status(201).json({
         message: "Task  created successfully",
-        book
+        task
     });
 }
 exports.getTasks = async (req, res) => {
@@ -58,7 +60,7 @@ exports.putTask = async (req, res) => {
         }
 
         let task = await Task.findById(req.params.id);
-        
+
         if (!task) {
             return res.status(400).json({ status: false, msg: "Task with given id not found" });
         }
